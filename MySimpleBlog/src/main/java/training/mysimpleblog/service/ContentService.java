@@ -37,8 +37,7 @@ public class ContentService {
      ********************/
 
     public Post findPost(long postId) {
-        Post post = em.find(Post.class, postId);
-        return post;
+        return em.find(Post.class, postId);
     }
 
     @SuppressWarnings("unchecked")
@@ -102,8 +101,7 @@ public class ContentService {
      ***********************/
 
     public Comment findComment(long commentId) {
-        Comment comment = em.find(Comment.class, commentId);
-        return comment;
+        return em.find(Comment.class, commentId);
     }
 
     public void createComment(Comment comment, Post post, User user) {
