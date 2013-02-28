@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core">
+<f:view locale="#{localeBacking.locale}">
+
+  <h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <h:outputStylesheet library="css" name="style.css" />
+    <title><ui:insert name="title" /></title>
+  </h:head>
+
+  <h:body>
+    <div id="wrapper">
+      <div id="header">
+
+        <div id="navigation">
+          <ul>
+            <li><h:link
+                value="#{msg['master.navigation.link.home']}"
+                outcome="/feed" /></li>
+            <li><h:link
+                value="#{msg['master.navigation.link.posts']}"
+                rendered="#{authBacking.isCurrentStaff()}"
+                outcome="/admin/post/postList" /></li>
+            <li><h:link
+                value="#{msg['master.navigation.link.users']}"
+                rendered="#{authBacking.isCurrentStaff()}"
+                outcome="/admin/user/userList" /></li>
+            <li><h:link
+                value="#{msg['master.navigation.link.settings']}"
+                rendered="#{authBacking.isCurrentAdmin()}"
+                outcome="/admin/setting/settingList" /></li>
+          </ul>
+        </div>
+
+        <div id="authentication">
+          <h:panelGroup rendered="#{!authBacking.isLoggedIn()}">
+            <ul>
+              <li><h:link
+                  value="#{msg['master.authentication.link.signin']}"
+                  outcome="/signin" /></li>
+              <li><h:link
+                  value="#{msg['master.authentication.link.signup']}"
+                  outcome="/signup" /></li>
+            </ul>
+          </h:panelGroup>
+          <h:panelGroup rendered="#{authBacking.isLoggedIn()}">
+            <h:form>
+              <ul>
+                <li>#{msg['master.authentication.account']}
+                  #{authBacking.getCurrentUser().username}</li>
+                <li><h:commandLink
+                    value="#{msg['master.authentication.link.signout']}"
+                    action="#{authBacking.signOut()}" /></li>
+              </ul>
+            </h:form>
+          </h:panelGroup>
+        </div>
+
+        <div id="locale">
+          <h:form>
+            <h:selectOneMenu value="#{localeBacking.language}"
+              onchange="submit()">
+              <f:selectItem itemValue="en"
+                itemLabel="#{msg['master.locale.english']}" />
+              <f:selectItem itemValue="ru"
+                itemLabel="#{msg['master.locale.russian']}" />
+            </h:selectOneMenu>
+          </h:form>
+        </div>
+
+        <ui:insert name="header" />
+      </div>
+
+      <div id="content">
+        <ui:insert name="content" />
+      </div>
+
+      <div id="footer">
+        <ui:insert name="footer" />
+      </div>
+    </div>
+  </h:body>
+
+</f:view>
+</html>

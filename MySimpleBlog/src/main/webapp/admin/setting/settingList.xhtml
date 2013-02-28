@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/./templates/master.xhtml">
+
+  <ui:define name="title">
+		#{msg['admin_setting_list.page.title']}
+	</ui:define>
+
+  <ui:define name="content">
+    <h:form>
+      <div id="setting-list">
+      
+        <p:messages autoUpdate="true" />
+
+        <p:dataTable id="settingTable"
+          value="#{adminSettingBacking.settings}" var="setting">
+          <p:column
+            headerText="#{msg['admin_setting_list.table.column.name']}"
+            style="width: 55%">
+		    			#{setting.name}
+		    		</p:column>
+          <p:column
+            headerText="#{msg['admin_setting_list.table.column.value']}"
+            style="width: 45%">
+            <p:inputText value="#{setting.value}" required="true"
+              style="width: 90%"
+              requiredMessage="#{setting.name}: #{msg['admin_setting_list.validation.setting.value']}" />
+          </p:column>
+
+          <f:facet name="footer">
+            <p:commandButton id="update"
+              value="#{msg['admin_setting_list.table.button.update']}"
+              actionListener="#{adminSettingBacking.updateSettings}"
+              update="settingTable" />
+          </f:facet>
+        </p:dataTable>
+        
+      </div>
+    </h:form>
+  </ui:define>
+
+</ui:composition>

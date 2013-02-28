@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" template="templates/master.xhtml">
+
+  <ui:define name="title">#{msg['signin.page.title']}</ui:define>
+
+  <ui:define name="content">
+    <h:form>
+      <p:messages globalOnly="true" />
+      <table>
+        <caption>#{msg['signin.caption']}</caption>
+        <tr>
+          <td><h:outputLabel value="#{msg['signin.username']}" />
+          </td>
+          <td><p:inputText id="username"
+              value="#{authBacking.user.username}" required="true"
+              requiredMessage="#{msg['signin.validation.username']}" />
+          </td>
+          <td><p:message for="username" /></td>
+        </tr>
+        <tr>
+          <td><h:outputLabel value="#{msg['signin.password']}" />
+          </td>
+          <td><p:password id="password"
+              value="#{authBacking.user.password}" required="true"
+              requiredMessage="#{msg['signin.validation.password']}" />
+          </td>
+          <td><p:message for="password" /></td>
+        </tr>
+        <tr>
+          <td><h:outputLabel value="#{msg['signin.remember']}" />
+          </td>
+          <td><h:selectBooleanCheckbox /></td>
+        </tr>
+        <tr>
+          <td colspan="3"><p:commandButton
+              value="#{msg['signin.button.submit']}"
+              action="#{authBacking.signIn()}" update="@form" /></td>
+        </tr>
+        <tr>
+          <td><h:link value="#{msg['signin.link.forgot']}"
+              outcome="/reset" /></td>
+          <td><h:link value="#{msg['signin.link.signup']}"
+              outcome="/signup" /></td>
+        </tr>
+      </table>
+    </h:form>
+  </ui:define>
+
+</ui:composition>

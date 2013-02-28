@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" template="templates/master.xhtml">
+
+  <f:metadata>
+    <f:viewParam name="commentId" value="#{commentBacking.commentId}" />
+    <f:event type="postAddToView"
+      listener="#{commentBacking.PostAddToViewHandler}" />
+  </f:metadata>
+
+  <ui:define name="title">
+		#{msg['comment_edit.page.title']}
+	</ui:define>
+
+  <ui:define name="content">
+    <div id="edit-comment">
+      <h:form>
+        <h:panelGrid columns="1">
+          <p:messages />
+
+          <h:outputLabel for="body"
+            value="#{msg['comment_edit.comment.text']}" />
+          <p:editor id="body" value="#{commentBacking.comment.body}"
+            required="true"
+            requiredMessage="#{msg['comment_edit.validation.comment.text']}" />
+          <p:commandButton value="#{msg['comment_edit.button.update']}"
+            action="#{commentBacking.updateComment()}" update="@form" />
+        </h:panelGrid>
+      </h:form>
+    </div>
+
+  </ui:define>
+
+</ui:composition>

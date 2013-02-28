@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" template="templates/master.xhtml">
+
+  <ui:define name="title">#{msg['signup.page.title']}</ui:define>
+
+  <ui:define name="content">
+    <h:form>
+      <table id="table">
+        <caption>#{msg['signup.caption']}</caption>
+        <tr>
+          <td><h:outputLabel value="#{msg['signup.username']}" /></td>
+          <td><p:inputText id="username" label="Username"
+              value="#{authBacking.user.username}"
+              validatorMessage="#{msg['signup.validation.username']}">
+              <f:validateLength minimum="4" />
+            </p:inputText></td>
+          <td><p:message for="username" /></td>
+        </tr>
+        <tr>
+          <td><h:outputLabel value="#{msg['signup.email']}" /></td>
+          <td><p:inputText id="email" label="Email"
+              value="#{authBacking.user.email}"
+              validatorMessage="#{msg['signup.validation.email']}">
+              <f:validateRegex
+                pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+            </p:inputText></td>
+          <td><p:message for="email" /></td>
+        </tr>
+        <tr>
+          <td><h:outputLabel value="#{msg['signup.password']}" /></td>
+          <td><p:password id="password" label="Password"
+              value="#{authBacking.user.password}"
+              match="confirmPassword"
+              validatorMessage="#{msg['signup.validation.password']}">
+              <f:validateLength minimum="8" />
+            </p:password></td>
+          <td><p:message for="password" /></td>
+        </tr>
+        <tr>
+          <td><h:outputLabel
+              value="#{msg['signup.confirm_password']}" /></td>
+          <td><p:password id="confirmPassword"
+              label="Confirm Password" required="true"
+              requiredMessage="#{msg['signup.validation.password_confirmation']}" />
+          </td>
+          <td><p:message for="confirmPassword" /></td>
+        </tr>
+        <tr>
+          <td colspan="3"><p:commandButton
+              value="#{msg['signup.button.submit']}"
+              action="#{authBacking.signUp()}" update="@form" /></td>
+        </tr>
+      </table>
+    </h:form>
+  </ui:define>
+
+</ui:composition>
+

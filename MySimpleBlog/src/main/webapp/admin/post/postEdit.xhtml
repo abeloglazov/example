@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/./templates/master.xhtml">
+
+  <f:metadata>
+    <f:viewParam name="postId" value="#{adminPostBacking.postId}" />
+    <f:event type="postAddToView"
+      listener="#{adminPostBacking.PostAddToViewHandler}" />
+  </f:metadata>
+
+  <ui:define name="title">
+		#{msg['admin_post_edit.page.title']}
+	</ui:define>
+
+  <ui:define name="content">
+    <h:form>
+      <div>
+      
+        <h:panelGrid columns="1">
+          <p:messages />
+
+          <h:outputLabel for="title"
+            value="#{msg['admin_post_edit.post.title']}" />
+          <p:inputText id="title" value="#{adminPostBacking.post.title}"
+            required="true"
+            requiredMessage="#{msg['admin_post_edit.validation.post.title']}" />
+
+          <h:outputLabel for="body"
+            value="#{msg['admin_post_edit.post.text']}" />
+          <p:editor id="body" value="#{adminPostBacking.post.body}"
+            required="true"
+            requiredMessage="#{msg['admin_post_edit.validation.post.text']}" />
+
+          <h:outputLabel for="tags"
+            value="#{msg['admin_post_edit.post.tags']}" />
+          <p:inputText id="tags" value="#{adminPostBacking.post.tags}"
+            converter="#{tagsConverter}" />
+
+          <p:commandButton
+            value="#{msg['admin_post_edit.post.button.update']}"
+            action="#{adminPostBacking.updatePost()}" update="@form" />
+          <p:commandButton
+            value="#{msg['admin_post_edit.post.button.delete']}"
+            onclick="confirmation.show()" type="button" />
+
+          <p:confirmDialog id="confirmDialog" widgetVar="confirmation"
+            message="#{msg['admin_post_edit.delete_dialogue.message']}"
+            header="#{msg['admin_post_edit.delete_dialogue.header']}">
+            <p:commandButton id="confirm"
+              value="#{msg['admin_post_edit.delete_dialogue.button.confirm']}"
+              action="#{adminPostBacking.deletePost()}" />
+            <p:commandButton id="decline"
+              value="#{msg['admin_post_edit.delete_dialogue.button.decline']}"
+              onclick="confirmation.hide()" type="button" />
+          </p:confirmDialog>
+        </h:panelGrid>
+        
+      </div>
+    </h:form>
+  </ui:define>
+
+</ui:composition>

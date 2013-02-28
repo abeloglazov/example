@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" template="templates/master.xhtml">
+
+  <f:metadata>
+    <f:viewParam name="postId" value="#{postBacking.postId}" />
+    <f:viewParam name="page" value="#{postBacking.page}" />
+    <f:event type="postAddToView"
+      listener="#{postBacking.PostAddToViewHandler}" />
+    <f:event type="preRenderView"
+      listener="#{postBacking.PreRenderViewHandler}" />
+  </f:metadata>
+
+  <ui:define name="title">
+    	#{postBacking.post.title}
+   	</ui:define>
+
+  <ui:define name="content">
+    <div class="post">
+      <div class="post-header">by
+        #{postBacking.post.user.username} at
+        #{postBacking.post.creationDate.getTime()}</div>
+
+      <div class="post-content">
+        <div class="post-content-title">#{postBacking.post.title}
+        </div>
+        <div class="post-content-body">
+          <h:outputText value="#{postBacking.post.body}" escape="false" />
+        </div>
+      </div>
+
+      <div class="post-footer"></div>
+    </div>
+
+    <div id="discussion">
+      <h:panelGroup id="pages" layout="block"
+        rendered="#{postBacking.hasComments()}">
+        <h:link id="next-page" rendered="#{postBacking.hasNextPage()}"
+          value="&#60;&#60;&#60;" includeViewParams="true"
+          fragment="discussion">
+          <f:param name="page" value="#{postBacking.getNextPage()}" />
+        </h:link>
+
+        <ui:repeat value="#{postBacking.getPages()}" var="page">
+          <h:link outcome="/post" value="#{page}"
+            includeViewParams="true" fragment="discussion">
+            <f:param name="page" value="#{page}" />
+          </h:link>
+        </ui:repeat>
+
+        <h:link id="previous-page"
+          rendered="#{postBacking.hasPreviousPage()}"
+          value="&#62;&#62;&#62;" includeViewParams="true"
+          fragment="discussion">
+          <f:param name="page" value="#{postBacking.getPreviousPage()}" />
+        </h:link>
+      </h:panelGroup>
+
+      <h:panelGroup id="comments" layout="block"
+        rendered="#{postBacking.hasComments()}">
+        <h:form>
+          <ui:repeat id="commentFeed"
+            value="#{postBacking.getCommentsByPage()}" var="comment">
+            <div class="comment">
+
+              <div class="comment-header">
+                <span>#{comment.user.username}
+                  #{comment.creationDate.getTime()}</span>
+                <h:outputText value="&#160;" />
+
+                <h:link rendered="#{authBacking.isLoggedIn()}"
+                  value="#{msg['post.discussion.comments.button.reply']}" />
+                <h:outputText value="&#160;" />
+
+                <h:link
+                  rendered="#{authBacking.isCurrentStaff() or authBacking.isCurrentCommentAuthor(comment)}"
+                  value="#{msg['post.discussion.comments.button.edit']}"
+                  outcome="comment">
+                  <f:param name="commentId" value="#{comment.id}" />
+                </h:link>
+                <h:outputText value="&#160;" />
+
+                <p:commandLink id="deleteComment" type="button"
+                  styleClass="delete-button"
+                  rendered="#{authBacking.isCurrentStaff() or authBacking.isCurrentCommentAuthor(comment)}"
+                  value="#{msg['post.discussion.comments.button.delete']}"
+                  onclick="confirmation.show()">
+                  <f:setPropertyActionListener
+                    target="#{postBacking.selectedComment}"
+                    value="#{comment}" />
+                </p:commandLink>
+              </div>
+
+              <div class="comment-body">
+                <h:outputText value="#{comment.body}" escape="false" />
+                <br />
+                <h:outputText rendered="#{comment.updatedDate != null}"
+                  styleClass="comment-updated-date"
+                  value="#{msg['post.discussion.comments.updated']} #{comment.updatedDate.getTime()}" />
+              </div>
+
+            </div>
+          </ui:repeat>
+
+          <p:confirmDialog id="confirmDialog" widgetVar="confirmation"
+            message="#{msg['post.discussion.comments.delete_dialogue.message']}"
+            header="#{msg['post.discussion.comments.delete_dialogue.header']}">
+
+            <p:commandButton id="confirm"
+              value="#{msg['post.discussion.comments.delete_dialogue.button.confirm']}"
+              oncomplete="confirmation.hide()" ajax="false"
+              action="#{postBacking.deleteComment}" />
+            <p:commandButton id="decline"
+              value="#{msg['post.discussion.comments.delete_dialogue.button.decline']}"
+              onclick="confirmation.hide()" type="button" />
+
+          </p:confirmDialog>
+        </h:form>
+      </h:panelGroup>
+
+      <div id="new-comment">
+        <h:form rendered="#{authBacking.isLoggedIn()}">
+          <h:panelGrid columns="1">
+            <p:message for="comment-body" />
+            <p:editor id="comment-body" widgetVar="new-comment-editor"
+              value="#{postBacking.newComment.body}" height="150"
+              width="400" required="true"
+              requiredMessage="#{msg['post.validation.new_comment.text']}" />
+            <h:commandButton
+              value="#{msg['post.discussion.new_comment.button.add']}"
+              action="#{postBacking.createComment()}" />
+          </h:panelGrid>
+        </h:form>
+      </div>
+
+    </div>
+
+  </ui:define>
+
+</ui:composition>

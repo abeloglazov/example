@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui" template="templates/master.xhtml">
+
+  <f:metadata>
+    <f:viewParam name="page" value="#{feedBacking.page}" />
+    <f:viewParam name="tag" value="#{feedBacking.tag}" />
+    <f:event type="preRenderView"
+      listener="#{feedBacking.PreRenderViewHandler}" />
+  </f:metadata>
+
+  <ui:define name="title">
+		#{msg['feed.page.title']}
+	</ui:define>
+
+  <ui:define name="content">
+    <div id="feed">
+
+      <ui:repeat value="#{feedBacking.posts}" var="post">
+        <div class="post">
+          <div class="post-header">
+            #{post.creationDate.getTime()} <br />
+            #{msg['feed.post.author']} #{post.user.username}
+          </div>
+
+          <div class="post-content">
+            <div class="post-content-title">
+              <h3>
+                <h:link value="#{post.title}" outcome="/post">
+                  <f:param name="postId" value="#{post.id}" />
+                </h:link>
+              </h3>
+            </div>
+            <div class="post-content-body">
+              <h:outputText value="#{post.body}" escape="false" />
+            </div>
+          </div>
+
+          <div class="post-footer">
+            <div class="tags">
+              <span>#{msg['feed.post.tags']} </span>
+              <ui:repeat id="feed" value="#{post.tags}" var="tag"
+                varStatus="tagsStatus">
+                <h:link value="#{tag.name}">
+                  <f:param name="tag" value="#{tag.name}" />
+                </h:link>
+                <h:outputText rendered="#{!tagsStatus.last}" value=", " />
+              </ui:repeat>
+            </div>
+            <div class="comments">
+              <h:link
+                value="#{msg['feed.post.link.comments']} (#{post.comments.size()})"
+                outcome="/post" fragment="discussion">
+                <f:param name="postId" value="#{post.id}" />
+              </h:link>
+            </div>
+            <div class="buttons">
+              <p:button rendered="#{authBacking.isCurrentStaff()}"
+                value="#{msg['feed.post.button.edit']}"
+                outcome="/admin/post/postEdit">
+                <f:param name="postId" value="#{post.id}" />
+              </p:button>
+            </div>
+
+          </div>
+        </div>
+      </ui:repeat>
+
+      <h:link id="link-next-page"
+        rendered="#{feedBacking.hasNextPage()}"
+        value="#{msg['feed.link.next_page']}">
+        <f:param name="page" value="#{feedBacking.getNextPage()}" />
+        <f:param disble="#{feedBacking.tag == null}" name="tag"
+          value="#{feedBacking.tag}" />
+      </h:link>
+
+      <h:link id="link-previous-page"
+        rendered="#{feedBacking.hasPreviousPage()}"
+        value="#{msg['feed.link.previous_page']}">
+        <f:param name="page" value="#{feedBacking.getPreviousPage()}" />
+        <f:param disble="#{feedBacking.tag == null}" name="tag"
+          value="#{feedBacking.tag}" />
+      </h:link>
+
+    </div>
+
+    <div id="sidebar">
+      <div id="tag-cloud">
+        <div id="tag-cloud-header">#{msg['feed.tagcloud.title']}</div>
+
+        <ui:repeat id="tag-cloud-repeater"
+          value="#{feedBacking.getWeightedTags()}" var="entry"
+          varStatus="tagsStatus">
+          <h:link value="#{entry[0]}" title="#{entry[1]}"
+            styleClass="#{entry[2]}">
+            <f:param name="tag" value="#{entry[0]}" />
+          </h:link>
+          <h:outputText rendered="#{!tagsStatus.last}" value=" " />
+        </ui:repeat>
+      </div>
+    </div>
+  </ui:define>
+
+</ui:composition>
+
+

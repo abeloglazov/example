@@ -1,0 +1,251 @@
+body {
+	margin: 0px;
+	font-size: 100%;
+}
+
+#wrapper {
+	width: 1000px;
+	margin: 10px auto;
+}
+
+#header {
+	display: block;
+	border: 1px solid black;
+	margin-bottom: 10px;
+}
+
+#content {
+	margin: 0px;
+	padding 0px;
+}
+
+#footer {
+	
+}
+
+/*********************
+***** PrimeFaces ***** 
+*********************/
+
+.ui-widget {
+  font-size: 75% !important;
+}
+.ui-widget .ui-widget {
+  font-size: 100% !important;
+}
+
+.ui-button-text-only .ui-button-text {
+	padding: .25em .625em !important;
+	line-height: 1.3 !important;
+}
+
+/*********************
+***** Navigation ***** 
+*********************/
+#navigation {
+	display: inline;
+	float: none;
+	/* border: 1px solid black; */  
+	color: rgb(61, 108, 155);
+	font-family: Helvetica, arial, sans-serif;
+	font-size: 1.3em;
+	font-weight: bold;
+}
+
+#navigation a:link, a:visited {
+	color: #333333;
+	text-decoration: none;
+}
+
+#navigation a:hover {
+	color: #4183c4; 
+	text-decoration: none;
+}
+
+#navigation ul, #navigation ul li {
+	display: inline;
+}
+
+#navigation ul {
+	list-style: none;
+}
+
+#navigation ul li {
+	margin-left: 10px;
+}
+
+/*************************
+***** Authentication ***** 
+*************************/
+#authentication {
+	display: inline;
+	float: right;
+	/* border: 1px solid black;   */
+}
+
+#authentication, #authentication form, #authentication ul, #authentication ul li {
+	display: inline;
+	
+}
+
+#authentication ul {
+	list-style: none;
+}
+
+#authentication ul li {
+	margin-left: 10px;
+}
+
+/******************
+***** Locale ****** 
+******************/
+
+#locale {
+	display: inline;
+	float: right;
+}
+
+/***************
+***** Post ***** 
+***************/
+
+#discussion {
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+.delete-button {
+	display: inline;
+}
+
+.comment {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.comment-updated-date {
+	font-size: 0.8em;
+	font-style: italic;
+}
+
+/***************
+***** Feed *****
+***************/
+
+#feed {
+	border: 1px solid black;
+	float: left;
+    width: 75%;
+}
+
+#sidebar {
+	border: 1px solid black;
+	margin-left: 77%;
+}
+
+.post {
+	margin: 5px auto 10px;
+	width: 96%;
+	border-bottom: 1px dotted black;
+	clear: both;
+}
+
+.post-header {
+	text-align: right;
+	color: rgb(150, 150, 150);
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 0.7em;
+}
+
+.post-content-title h3 {
+	margin: 0px;
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+.post-content-title a:link, a:visited {
+	text-decoration: none;
+}
+
+.post-content-body {
+	color: rgb(0, 0, 0);
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 0.8em;
+	font-weight: normal;
+	line-height: 1.5;
+	vertical-align: baseline;
+	margin: 5px 0px;
+	padding: 0px;
+}
+
+/***************
+***** Tag ***** 
+***************/
+
+#tag-cloud {
+	margin: 10px auto;
+	width: 90%;
+	text-align: center;
+	
+}
+
+#tag-cloud-header {
+	font-size: 1.05em;
+	font-weight: 500;
+	margin: 5px 0px;
+	text-align: left;
+}
+
+#tag-cloud a {
+	white-space: nowrap;
+	line-height: 24px;
+}
+
+.smallest-tag {
+	font-size: 0.8em;
+}
+
+.small-tag {
+	font-size: 1em;
+}
+
+.medium-tag {
+	font-size: 1.2em;
+}
+
+.large-tag {
+	font-size: 1.4em;
+	font-weight: 500;
+}
+
+.largest-tag {
+	font-size: 1.5em;
+	font-weight: 600;
+}
+
+/**********************
+***** Admin Panel ***** 
+**********************/
+#user-list {
+	width: 70%; 
+	margin-left: 15%; 
+	margin-right: 15%; 
+	margin-top: 1%;
+}
+
+#post-list {
+	width: 80%; 
+	margin-left: 10%; 
+	margin-right: 10%; 
+	margin-top: 1%;
+}
+
+#setting-list {
+	width: 50%;
+	margin-left: 25%; 
+	margin-right: 25%; 
+	margin-top: 1%;
+}
+
+

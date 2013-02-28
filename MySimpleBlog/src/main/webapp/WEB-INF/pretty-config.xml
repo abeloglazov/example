@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.3.3" 
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.3 
+               http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.3.xsd">
+
+	<!-- **************************
+	**** Available to everyone ****
+	*************************** -->
+	
+	<url-mapping id="feed">
+		<pattern value="/" />
+		<view-id value="/feed.xhtml" />
+	</url-mapping>
+		
+	<url-mapping id="feed-page">
+		<pattern value="/#{ /-?[0-9]+/ page}/" />
+		<view-id value="/feed.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="feed-tag">
+		<pattern value="/tag/#{tag}/" />
+		<view-id value="/feed.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="feed-tag-page">
+		<pattern value="/tag/#{tag}/#{/-?[0-9]+/ page}/" />
+		<view-id value="/feed.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="signin">
+		<pattern value="/signin/" />
+		<view-id value="/signin.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="signup">
+		<pattern value="/signup/" />
+		<view-id value="/signup.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="reset">
+		<pattern value="/reset/" />
+		<view-id value="/reset.xhtml" />
+	</url-mapping>	
+	
+	<url-mapping id="post">
+		<pattern value="/post/#{postId}/" />
+		<view-id value="/post.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="comment">
+		<pattern value="/comment/#{commentId}/" />
+		<view-id value="/comment.xhtml" />
+	</url-mapping>
+	
+	<!-- ****************
+	**** Admin Panel ****
+	***************** -->	
+	
+	<url-mapping id="admin/post/list">
+		<pattern value="/admin/post/" />
+		<view-id value="/admin/post/postList.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="admin/post/new">
+		<pattern value="/admin/post/new/" />
+		<view-id value="/admin/post/postNew.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="admin/post/edit">
+		<pattern value="/admin/post/edit/#{postId}/" />
+		<view-id value="/admin/post/postEdit.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="admin/user/list">
+		<pattern value="/admin/user/" />
+		<view-id value="/admin/user/userList.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="admin/setting/list">
+		<pattern value="/admin/setting/" />
+		<view-id value="/admin/setting/settingList.xhtml" />
+	</url-mapping>
+	
+</pretty-config>

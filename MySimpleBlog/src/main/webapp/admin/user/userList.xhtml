@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/./templates/master.xhtml">
+
+  <ui:define name="title">
+		#{msg['admin_user_list.page.title']}
+	</ui:define>
+
+  <ui:define name="content">
+    <h:form>
+      <div id="user-list">
+
+        <p:dataTable id="userTable"
+          value="#{adminUserBacking.getUsers()}" var="user"
+          editable="true" paginator="true" rows="10"
+          paginatorPosition="bottom"
+          paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
+          selection="#{adminUserBacking.selectedUsers}"
+          rowKey="#{user.id}">
+
+          <p:ajax event="rowEdit" listener="#{adminUserBacking.onEdit}" />
+
+          <p:column selectionMode="multiple" style="width: 5%"
+            disabledSelection="#{authBacking.isAdmin(user) or authBacking.isCurrentUser(user)}" />
+
+          <p:column
+            headerText="#{msg['admin_user_list.table.column.id']}"
+            style="width: 10%; text-align: center;">    								
+		      			#{user.id}
+				   	</p:column>
+
+          <p:column
+            headerText="#{msg['admin_user_list.table.column.username']}"
+            style="width: 25%;">
+            <p:cellEditor>
+              <f:facet name="output">  
+			                    #{user.username}   	 
+			                </f:facet>
+              <f:facet name="input">
+                <p:inputText value="#{user.username}" />
+              </f:facet>
+            </p:cellEditor>
+          </p:column>
+
+          <p:column
+            headerText="#{msg['admin_user_list.table.column.email']}"
+            style="width: 30%;">
+            <p:cellEditor>
+              <f:facet name="output">  
+			                    #{user.email}   	 
+			                </f:facet>
+              <f:facet name="input">
+                <p:inputText value="#{user.email}" />
+              </f:facet>
+            </p:cellEditor>
+          </p:column>
+
+          <p:column
+            headerText="#{msg['admin_user_list.table.column.banned']}"
+            style="width: 15%;">
+            <p:cellEditor>
+              <f:facet name="output">  
+			                    #{user.banned}   	 
+			                </f:facet>
+              <f:facet name="input">
+                <h:selectOneMenu value="#{user.banned}">
+                  <f:selectItem itemLabel="True" itemValue="True" />
+                  <f:selectItem itemLabel="False" itemValue="False" />
+                </h:selectOneMenu>
+              </f:facet>
+            </p:cellEditor>
+          </p:column>
+
+          <p:column
+            headerText="#{msg['admin_user_list.table.column.role']}"
+            style="width: 15%;">
+            <p:cellEditor>
+              <f:facet name="output">  
+			                    #{user.role.name}   	 
+			                </f:facet>
+              <f:facet name="input">
+                <h:selectOneMenu value="#{user.role}"
+                  converter="#{roleConverter}"
+                  disabled="#{!authBacking.isCurrentAdmin()}">
+                  <f:selectItems value="#{adminUserBacking.roles}"
+                    var="role" itemLabel="#{role.name}"
+                    itemValue="#{role}" />
+                </h:selectOneMenu>
+              </f:facet>
+            </p:cellEditor>
+          </p:column>
+
+          <p:column style="width: 5%">
+            <p:rowEditor rendered="#{!authBacking.isAdmin(user)}" />
+          </p:column>
+
+          <f:facet name="footer">
+            <p:commandButton id="banUsers"
+              value="#{msg['admin_user_list.table.button.ban']}"
+              onclick="banConfirm.show()" type="button" />
+            <p:commandButton id="deleteUsers"
+              value="#{msg['admin_user_list.table.button.delete']}"
+              onclick="deleteConfirm.show()" type="button" />
+          </f:facet>
+
+        </p:dataTable>
+
+        <p:confirmDialog id="banConfirmDialog" widgetVar="banConfirm"
+          message="#{msg['admin_user_list.ban_dialogue.message']}"
+          header="#{msg['admin_user_list.ban_dialogue.header']}"
+          severity="alert">
+          <p:commandButton id="banConfirm"
+            value="#{msg['admin_user_list.ban_dialogue.button.confirm']}"
+            update="userTable" oncomplete="banConfirm.hide()"
+            actionListener="#{adminUserBacking.banUsers}" />
+          <p:commandButton id="banDecline"
+            value="#{msg['admin_user_list.ban_dialogue.button.decline']}"
+            onclick="banConfirm.hide()" type="button" />
+        </p:confirmDialog>
+
+        <p:confirmDialog id="deleteConfirmDialog"
+          widgetVar="deleteConfirm"
+          message="#{msg['admin_user_list.delete_dialogue.message']}"
+          header="#{msg['admin_user_list.delete_dialogue.header']}"
+          severity="alert">
+          <p:commandButton id="deleteConfirm"
+            value="#{msg['admin_user_list.delete_dialogue.button.confirm']}"
+            update="userTable" oncomplete="deleteConfirm.hide()"
+            actionListener="#{adminUserBacking.deleteUsers}" />
+          <p:commandButton id="deleteDecline"
+            value="#{msg['admin_user_list.delete_dialogue.button.decline']}"
+            onclick="deleteConfirm.hide()" type="button" />
+        </p:confirmDialog>
+
+      </div>
+    </h:form>
+  </ui:define>
+
+</ui:composition>

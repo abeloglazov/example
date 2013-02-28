@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  template="/./templates/master.xhtml">
+
+  <ui:define name="title">
+		#{msg['admin_post_list.page.title']}
+	</ui:define>
+
+  <ui:define name="content">
+    <h:form>
+      <div id="post-list">
+      
+        <p:dataTable id="postTable"
+          value="#{adminPostBacking.getPosts()}" var="post"
+          paginator="true" rows="10" paginatorPosition="bottom"
+          paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
+          selection="#{adminPostBacking.selectedPosts}"
+          rowKey="#{post.id}">
+
+          <p:column selectionMode="multiple" style="width: 5%" />
+
+          <p:column
+            headerText="#{msg['admin_post_list.table.column.id']}"
+            style="width: 5%; text-align: center;">    				 				
+		      			#{post.id}
+				   	</p:column>
+
+          <p:column
+            headerText="#{msg['admin_post_list.table.column.title']}"
+            style="width: 45%;"> 				
+      					#{post.title}
+	   				</p:column>
+
+          <p:column
+            headerText="#{msg['admin_post_list.table.column.date']}"
+            style="width: 20%; text-align: center;">
+		      			#{post.creationDate.getTime()}	
+	   				</p:column>
+
+          <p:column
+            headerText="#{msg['admin_post_list.table.column.author']}"
+            style="width: 10%; text-align: center;">
+			   			#{post.user.username} 		
+	   				</p:column>
+
+          <p:column style="width: 15%; text-align: center;">
+            <p:button
+              value="#{msg['admin_post_list.table.button.edit']}"
+              outcome="/admin/post/postEdit">
+              <f:param name="postId" value="#{post.id}" />
+            </p:button>
+          </p:column>
+
+          <f:facet name="footer">
+            <p:button value="#{msg['admin_post_list.table.button.new']}"
+              outcome="/admin/post/postNew" />
+            <p:commandButton id="deletePosts"
+              value="#{msg['admin_post_list.table.button.delete']}"
+              onclick="confirmation.show()" type="button" />
+          </f:facet>
+
+        </p:dataTable>
+
+        <p:confirmDialog id="confirmDialog" widgetVar="confirmation"
+          message="#{msg['admin_post_list.delete_dialogue.message']}"
+          header="#{msg['admin_post_list.delete_dialogue.header']}"
+          severity="alert">
+
+          <p:commandButton id="confirm"
+            value="#{msg['admin_post_list.delete_dialogue.button.confirm']}"
+            update="postTable" oncomplete="confirmation.hide()"
+            actionListener="#{adminPostBacking.deletePosts}" />
+          <p:commandButton id="decline"
+            value="#{msg['admin_post_list.delete_dialogue.button.decline']}"
+            onclick="confirmation.hide()" type="button" />
+
+        </p:confirmDialog>
+
+      </div>
+    </h:form>
+  </ui:define>
+
+</ui:composition>
